@@ -25,8 +25,6 @@ class GameScene: SKScene {
     }
     
     func touchDown(atPoint pos : CGPoint) {
-        //angle += 0.1
-        //bullet.removeAllActions()
         angle = ((2 * .pi) / 360) * (Double(degreesOnTouch(posX: pos.x, posY: pos.y)))
         spin()
         fire()
