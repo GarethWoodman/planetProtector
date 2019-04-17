@@ -21,7 +21,7 @@ class GameScene: SKScene {
         dot = self.childNode(withName: "dot") as! SKSpriteNode
         origin = self.childNode(withName: "origin") as! SKSpriteNode
         radius = 80
-            //origin.size.width/2
+        print("Hello Git")
     }
     
     func touchDown(atPoint pos : CGPoint) {
