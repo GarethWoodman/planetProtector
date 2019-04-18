@@ -12,15 +12,27 @@ import GameplayKit
 class GameScene: SKScene {
     
     var player = SKSpriteNode()
+    
     var centerPoint = SKSpriteNode()
+    
     var radius = CGFloat(0)
     var radians = 0.0
+    
     var bullets: [Bullet] = []
+    var bulletIndex = -1
+    
     var enemys: [Enemy] = []
     var enemyTimer = 0
+    //Must find a way to replace index on array - it's inefficient and confusing
+    var enemyIndex = -1
+    var enemyIndexTwo = -1
+    
     var scoreCountLabel = SKLabelNode()
     var scoreCount = 0
-    var enemyIsHit = false
+    
+    var livesCountLabel = SKLabelNode()
+    var livesCount = 10
+    
     
     override func didMove(to view: SKView) {
         //node that fires bullets
@@ -31,12 +43,8 @@ class GameScene: SKScene {
         radius = 80
         scoreCountLabel = self.childNode(withName: "scoreCountLabel") as! SKLabelNode
         scoreCountLabel.text = String(scoreCount)
-        if enemyIsHit{
-            scoreCount+=1
-            scoreCountLabel.text = String(scoreCount)
-            enemyIsHit = false
-        }
-        
+        livesCountLabel = self.childNode(withName: "livesCountLabel") as! SKLabelNode
+        livesCountLabel.text = String(livesCount)
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -113,27 +121,45 @@ class GameScene: SKScene {
     
     //Check all objects in Scene and perform any actions necessary
     func checkObjects() {
+        //1. Spawn bullets
         for bullet in bullets {
+            bulletIndex += 1
             bullet.node.position.x += bullet.originPos.x/10
             bullet.node.position.y += bullet.originPos.y/10
+            //2. If bullets leave the frame, remove them
             if abs(bullet.node.position.x) > self.frame.size.width/2 || abs(bullet.node.position.y) > self.frame.size.height/2  {
                 bullet.node.removeFromParent()
             }
+            //3. Check if a bullet intersects with an enemy
             for enemy in enemys {
+                //Note: index is created so that object can be removed from array (otherwise the object can be hit again!)
+                enemyIndex += 1
                 if bullet.node.intersects(enemy.node) {
                     enemy.node.removeFromParent()
+                    enemys.remove(at: enemyIndex)
                     bullet.node.removeFromParent()
-                    enemyIsHit = true
+                    bullets.remove(at: bulletIndex)
+                    //Update score once hit
+                    scoreCount += 1
+                    scoreCountLabel.text = String(scoreCount)
                 }
             }
+            enemyIndex = -1
         }
+        bulletIndex = -1
+        //Move enemy towards player
         for enemy in enemys {
+            enemyIndexTwo += 1
             enemy.node.position.x -= enemy.originPos.x/400
             enemy.node.position.y -= enemy.originPos.y/400
             if enemy.node.intersects(centerPoint) {
                 enemy.node.removeFromParent()
+                enemys.remove(at: enemyIndexTwo)
+                livesCount -= 1
+                livesCountLabel.text = String(livesCount)
             }
         }
+        enemyIndexTwo = -1
     }
     
     //spawn and position enemy on raidus outside frame
