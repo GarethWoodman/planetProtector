@@ -14,18 +14,22 @@ class GameScene: SKScene {
     var dot = SKSpriteNode()
     var origin = SKSpriteNode()
     var radius = CGFloat(0)
-    var angle = 0.0
+    var radians = 0.0
     var bullets: [Bullet] = []
     
     override func didMove(to view: SKView) {
+        //node that fires bullets
         dot = self.childNode(withName: "dot") as! SKSpriteNode
+        //node at the center of display
         origin = self.childNode(withName: "origin") as! SKSpriteNode
+        //raidus of where the player will be positioned and shoot from
         radius = 80
         print("Hello Github")
     }
     
     func touchDown(atPoint pos : CGPoint) {
-        angle = ((2 * .pi) / 360) * (Double(degreesOnTouch(posX: pos.x, posY: pos.y)))
+        
+        radians = (Double(radiansOnTouch(posX: pos.x, posY: pos.y)))
         spin()
         fire()
     }
@@ -61,11 +65,11 @@ class GameScene: SKScene {
     }
     
     func spin() {
-        print(angle)
-        dot.zRotation = CGFloat(angle)
-        dot.position.x = origin.position.x + CGFloat(cos(angle) * Double(radius))
-        dot.position.y = origin.position.y + CGFloat(sin(angle) * Double(radius))
-        angle += 0.03
+        print(radians)
+        dot.zRotation = CGFloat(radians)
+        dot.position.x = origin.position.x + CGFloat(cos(radians) * Double(radius))
+        dot.position.y = origin.position.y + CGFloat(sin(radians) * Double(radius))
+        radians += 0.03
     }
     
     
@@ -83,14 +87,13 @@ class GameScene: SKScene {
         self.bullets.append(bullet)
     }
     
-    func degreesOnTouch(posX: CGFloat, posY: CGFloat) -> CGFloat{
-        let radians = atan2(posY-0, posX-0)
+    func radiansOnTouch(posX: CGFloat, posY: CGFloat) -> CGFloat{
+        var radians = atan2(posY-0, posX-0)
         print(radians)
-        var degrees = radians * 180 / .pi
-        if degrees < 0 {
-            degrees += 360
+        if radians < 0 {
+            radians += .pi*2
         }
-        return degrees
+        return radians
     }
     
     func checkObjects() {
@@ -102,5 +105,13 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    //Notes
+    //--Calculate 360 Degrees from radians
+    //var degrees = radians * 180 / .pi
+    //if degrees < 0 {
+    //degrees += 360
+    //}
+    //return degrees
     
 }
