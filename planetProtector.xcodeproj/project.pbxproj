@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D0A228B2268DAA0005EAF7B /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0A228A2268DAA0005EAF7B /* Enemy.swift */; };
 		8D2EE7832266237F0088E8CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2EE7822266237F0088E8CB /* AppDelegate.swift */; };
 		8D2EE7852266237F0088E8CB /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EE7842266237F0088E8CB /* GameScene.sks */; };
 		8D2EE7872266237F0088E8CB /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8D2EE7862266237F0088E8CB /* Actions.sks */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D0A228A2268DAA0005EAF7B /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		8D2EE77F2266237F0088E8CB /* planetProtector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = planetProtector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D2EE7822266237F0088E8CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D2EE7842266237F0088E8CB /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				8D2EE7842266237F0088E8CB /* GameScene.sks */,
 				8D2EE7862266237F0088E8CB /* Actions.sks */,
 				8D2EE7882266237F0088E8CB /* GameScene.swift */,
+				8D0A228A2268DAA0005EAF7B /* Enemy.swift */,
 				8DB41B4822678C7B00A33954 /* Bullet.swift */,
 				8D2EE78A2266237F0088E8CB /* GameViewController.swift */,
 				8D2EE78C2266237F0088E8CB /* Main.storyboard */,
@@ -271,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D2EE7892266237F0088E8CB /* GameScene.swift in Sources */,
+				8D0A228B2268DAA0005EAF7B /* Enemy.swift in Sources */,
 				8D2EE78B2266237F0088E8CB /* GameViewController.swift in Sources */,
 				8D2EE7832266237F0088E8CB /* AppDelegate.swift in Sources */,
 				8DB41B4922678C7B00A33954 /* Bullet.swift in Sources */,

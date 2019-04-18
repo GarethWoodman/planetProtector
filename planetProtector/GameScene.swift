@@ -16,6 +16,11 @@ class GameScene: SKScene {
     var radius = CGFloat(0)
     var radians = 0.0
     var bullets: [Bullet] = []
+    var enemys: [Enemy] = []
+    var enemyTimer = 0
+    var scoreCountLabel = SKLabelNode()
+    var scoreCount = 0
+    var enemyIsHit = false
     
     override func didMove(to view: SKView) {
         //node that fires bullets
@@ -24,6 +29,14 @@ class GameScene: SKScene {
         centerPoint = self.childNode(withName: "origin") as! SKSpriteNode
         //raidus of where the player will be positioned and shoot from
         radius = 80
+        scoreCountLabel = self.childNode(withName: "scoreCountLabel") as! SKLabelNode
+        scoreCountLabel.text = String(scoreCount)
+        if enemyIsHit{
+            scoreCount+=1
+            scoreCountLabel.text = String(scoreCount)
+            enemyIsHit = false
+        }
+        
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -63,6 +76,11 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         checkObjects()
+        enemyTimer += 1
+        if enemyTimer > 60 {
+            enemyTimer = 0
+            spawnEnemy()
+        }
     }
     
     //Reposition player
@@ -101,7 +119,32 @@ class GameScene: SKScene {
             if abs(bullet.node.position.x) > self.frame.size.width/2 || abs(bullet.node.position.y) > self.frame.size.height/2  {
                 bullet.node.removeFromParent()
             }
+            for enemy in enemys {
+                if bullet.node.intersects(enemy.node) {
+                    enemy.node.removeFromParent()
+                    bullet.node.removeFromParent()
+                    enemyIsHit = true
+                }
+            }
         }
+        for enemy in enemys {
+            enemy.node.position.x -= enemy.originPos.x/400
+            enemy.node.position.y -= enemy.originPos.y/400
+            if enemy.node.intersects(centerPoint) {
+                enemy.node.removeFromParent()
+            }
+        }
+    }
+    
+    //spawn and position enemy on raidus outside frame
+    func spawnEnemy(){
+        let enemy = Enemy(node: SKSpriteNode(imageNamed: "enemy.png"))
+        let ranRad = Double.random(in: 0 ... .pi*2)
+        enemy.node.position.x = centerPoint.position.x + CGFloat(cos(ranRad) * Double(960.00))
+        enemy.node.position.y = centerPoint.position.y + CGFloat(sin(ranRad) * Double(960.00))
+        enemy.originPos = CGPoint(x: enemy.node.position.x, y: enemy.node.position.y)
+        addChild(enemy.node)
+        self.enemys.append(enemy)
     }
     
     //Notes
