@@ -129,6 +129,7 @@ class GameScene: SKScene {
             //2. If bullets leave the frame, remove them
             if abs(bullet.node.position.x) > self.frame.size.width/2 || abs(bullet.node.position.y) > self.frame.size.height/2  {
                 bullet.node.removeFromParent()
+                //bullets.remove(at: bulletIndex)
             }
             //3. Check if a bullet intersects with an enemy
             for enemy in enemys {
