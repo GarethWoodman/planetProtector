@@ -9,6 +9,16 @@
 import SpriteKit
 import GameplayKit
 
+extension Array where Element: Equatable {
+    
+    // Remove first collection element that is equal to the given `object`:
+    mutating func remove(object: Element) {
+        guard let index = firstIndex(of: object) else {return}
+        remove(at: index)
+    }
+    
+}
+
 class GameScene: SKScene {
     
     var player = SKSpriteNode()
@@ -19,20 +29,15 @@ class GameScene: SKScene {
     var radians = 0.0
     
     var bullets: [Bullet] = []
-    var bulletIndex = -1
     
     var enemys: [Enemy] = []
     var enemyTimer = 0
-    //Must find a way to replace index on array - it's inefficient and confusing
-    var enemyIndex = -1
-    var enemyIndexTwo = -1
     
     var scoreCountLabel = SKLabelNode()
     var scoreCount = 0
     
     var livesCountLabel = SKLabelNode()
     var livesCount = 10
-    
     
     override func didMove(to view: SKView) {
         //node that fires bullets
@@ -88,6 +93,7 @@ class GameScene: SKScene {
         if enemyTimer > 60 {
             enemyTimer = 0
             spawnEnemy()
+            print(bullets.count)
         }
     }
     
@@ -101,18 +107,17 @@ class GameScene: SKScene {
     
     //Spawn bullet based on players position
     func fire() {
-        let bullet = Bullet(node: SKSpriteNode(imageNamed: "bullet.png"))
-        addChild(bullet.node)
-        bullet.node.position.x = player.position.x*1.6
-        bullet.node.position.y = player.position.y*1.6
-        bullet.originPos = CGPoint(x: bullet.node.position.x, y: bullet.node.position.y)
+        let bullet = Bullet()
+        addChild(bullet)
+        bullet.position.x = player.position.x*1.6
+        bullet.position.y = player.position.y*1.6
+        bullet.originPos = CGPoint(x: bullet.position.x, y: bullet.position.y)
         self.bullets.append(bullet)
     }
     
     //Calculate raidians based on users touch
     func radiansOnTouch(posX: CGFloat, posY: CGFloat) -> CGFloat{
         var radians = atan2(posY-0, posX-0)
-        print(radians)
         if radians < 0 {
             radians += .pi*2
         }
@@ -123,55 +128,69 @@ class GameScene: SKScene {
     func checkObjects() {
         //1. Spawn bullets
         for bullet in bullets {
-            bulletIndex += 1
-            bullet.node.position.x += bullet.originPos.x/10
-            bullet.node.position.y += bullet.originPos.y/10
+            bullet.position.x += bullet.originPos.x/10
+            bullet.position.y += bullet.originPos.y/10
             //2. If bullets leave the frame, remove them
-            if abs(bullet.node.position.x) > self.frame.size.width/2 || abs(bullet.node.position.y) > self.frame.size.height/2  {
-                bullet.node.removeFromParent()
-                //bullets.remove(at: bulletIndex)
+            if abs(bullet.position.x) > self.frame.size.width/2 || abs(bullet.position.y) > self.frame.size.height/2  {
+                bullet.isHit = true
             }
             //3. Check if a bullet intersects with an enemy
             for enemy in enemys {
-                //Note: index is created so that object can be removed from array (otherwise the object can be hit again!)
-                enemyIndex += 1
-                if bullet.node.intersects(enemy.node) {
-                    enemy.node.removeFromParent()
-                    enemys.remove(at: enemyIndex)
-                    bullet.node.removeFromParent()
-                    bullets.remove(at: bulletIndex)
+                if bullet.intersects(enemy) {
+                    enemy.isHit = true
+                    bullet.isHit = true
                     //Update score once hit
                     scoreCount += 1
                     scoreCountLabel.text = String(scoreCount)
                 }
             }
-            enemyIndex = -1
         }
-        bulletIndex = -1
         //Move enemy towards player
         for enemy in enemys {
-            enemyIndexTwo += 1
-            enemy.node.position.x -= enemy.originPos.x/400
-            enemy.node.position.y -= enemy.originPos.y/400
-            if enemy.node.intersects(centerPoint) {
-                enemy.node.removeFromParent()
-                enemys.remove(at: enemyIndexTwo)
+            enemy.position.x -= enemy.originPos.x/400
+            enemy.position.y -= enemy.originPos.y/400
+            if enemy.intersects(centerPoint) {
+                enemy.isHit = true
                 livesCount -= 1
                 livesCountLabel.text = String(livesCount)
             }
         }
-        enemyIndexTwo = -1
+        //Check for any objects that were hit or off screen and remove them
+        removeObjects()
     }
     
     //spawn and position enemy on raidus outside frame
     func spawnEnemy(){
-        let enemy = Enemy(node: SKSpriteNode(imageNamed: "enemy.png"))
+        let enemy = Enemy()
         let ranRad = Double.random(in: 0 ... .pi*2)
-        enemy.node.position.x = centerPoint.position.x + CGFloat(cos(ranRad) * Double(960.00))
-        enemy.node.position.y = centerPoint.position.y + CGFloat(sin(ranRad) * Double(960.00))
-        enemy.originPos = CGPoint(x: enemy.node.position.x, y: enemy.node.position.y)
-        addChild(enemy.node)
+        enemy.position.x = centerPoint.position.x + CGFloat(cos(ranRad) * Double(960.00))
+        enemy.position.y = centerPoint.position.y + CGFloat(sin(ranRad) * Double(960.00))
+        enemy.originPos = CGPoint(x: enemy.position.x, y: enemy.position.y)
+        addChild(enemy)
         self.enemys.append(enemy)
+    }
+    
+    func removeObjects() {
+        var bulletIndex = 0
+        for bullet in bullets {
+            if bullet.isHit == true {
+                bullets.remove(at: bulletIndex)
+                bullet.removeFromParent()
+                break
+            }
+            bulletIndex += 1
+        }
+        bulletIndex = 0
+        var enemyIndex = 0
+        for enemy in enemys {
+            if enemy.isHit == true {
+                enemys.remove(at: enemyIndex)
+                enemy.removeFromParent()
+                break
+            }
+            enemyIndex += 1
+        }
+        enemyIndex = 0
     }
     
     //Notes

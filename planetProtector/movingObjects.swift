@@ -1,8 +1,8 @@
 //
-//  Bullet.swift
+//  movingObjects.swift
 //  planetProtector
 //
-//  Created by Gareth Woodman on 17/04/2019.
+//  Created by United Kingdom Local Admin on 21/04/2019.
 //  Copyright © 2019 Gareth Woodman. All rights reserved.
 //
 
@@ -10,10 +10,10 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Bullet: SKSpriteNode {
+class movingObjects: SKSpriteNode {
     
     init() {
-        let texture = SKTexture(imageNamed: "bullet.png")
+        //let texture = SKTexture(imageNamed: "enemy.png")
         super.init(texture: texture, color: .clear, size: texture.size())
     }
     

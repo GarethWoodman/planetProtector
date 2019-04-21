@@ -10,19 +10,19 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Enemy {
-    
-    var node = SKSpriteNode()
-    var originPos = CGPoint()
-    var velocity = CGFloat(1.1)
+class Enemy: SKSpriteNode {
     
     init() {
-        
+        let texture = SKTexture(imageNamed: "enemy.png")
+        super.init(texture: texture, color: .clear, size: texture.size())
     }
     
-    init(node: SKSpriteNode) {
-        self.node = node
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
+    var originPos = CGPoint()
+    var isHit = false
     
 }
 
