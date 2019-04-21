@@ -19,6 +19,7 @@
 		8D2EE79E226623820088E8CB /* planetProtectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2EE79D226623820088E8CB /* planetProtectorTests.swift */; };
 		8D2EE7A9226623820088E8CB /* planetProtectorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2EE7A8226623820088E8CB /* planetProtectorUITests.swift */; };
 		8DB41B4922678C7B00A33954 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB41B4822678C7B00A33954 /* Bullet.swift */; };
+		9FDC08D7226C67AD00D763FE /* MovingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDC08D6226C67AD00D763FE /* MovingObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		8D2EE7A8226623820088E8CB /* planetProtectorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = planetProtectorUITests.swift; sourceTree = "<group>"; };
 		8D2EE7AA226623820088E8CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB41B4822678C7B00A33954 /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
+		9FDC08D6226C67AD00D763FE /* MovingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				8D2EE7862266237F0088E8CB /* Actions.sks */,
 				8D2EE7882266237F0088E8CB /* GameScene.swift */,
 				8D0A228A2268DAA0005EAF7B /* Enemy.swift */,
+				9FDC08D6226C67AD00D763FE /* MovingObject.swift */,
 				8DB41B4822678C7B00A33954 /* Bullet.swift */,
 				8D2EE78A2266237F0088E8CB /* GameViewController.swift */,
 				8D2EE78C2266237F0088E8CB /* Main.storyboard */,
@@ -273,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FDC08D7226C67AD00D763FE /* MovingObject.swift in Sources */,
 				8D2EE7892266237F0088E8CB /* GameScene.swift in Sources */,
 				8D0A228B2268DAA0005EAF7B /* Enemy.swift in Sources */,
 				8D2EE78B2266237F0088E8CB /* GameViewController.swift in Sources */,

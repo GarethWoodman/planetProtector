@@ -10,19 +10,17 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Enemy: SKSpriteNode {
+class Enemy: MovingObject {
     
-    init() {
-        let texture = SKTexture(imageNamed: "enemy.png")
-        super.init(texture: texture, color: .clear, size: texture.size())
+    override init() {
+        super.init()
+        self.texture = SKTexture(imageNamed: "enemy.png")
+        self.size = (self.texture?.size())!
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    var originPos = CGPoint()
-    var isHit = false
     
 }
 

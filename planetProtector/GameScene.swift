@@ -36,8 +36,10 @@ class GameScene: SKScene {
         centerPoint = self.childNode(withName: "origin") as! SKSpriteNode
         //raidus of where the player will be positioned and shoot from
         radius = 80
+        //label of score
         scoreCountLabel = self.childNode(withName: "scoreCountLabel") as! SKLabelNode
         scoreCountLabel.text = String(scoreCount)
+        //label of lives
         livesCountLabel = self.childNode(withName: "livesCountLabel") as! SKLabelNode
         livesCountLabel.text = String(livesCount)
     }
@@ -122,13 +124,13 @@ class GameScene: SKScene {
             bullet.position.y += bullet.originPos.y/10
             //2. If bullets leave the frame, remove them
             if abs(bullet.position.x) > self.frame.size.width/2 || abs(bullet.position.y) > self.frame.size.height/2  {
-                bullet.isHit = true
+                bullet.kill()
             }
             //3. Check if a bullet intersects with an enemy
             for enemy in enemys {
                 if bullet.intersects(enemy) {
-                    enemy.isHit = true
-                    bullet.isHit = true
+                    enemy.kill()
+                    bullet.kill()
                     //Update score once hit
                     scoreCount += 1
                     scoreCountLabel.text = String(scoreCount)
@@ -140,13 +142,14 @@ class GameScene: SKScene {
             enemy.position.x -= enemy.originPos.x/400
             enemy.position.y -= enemy.originPos.y/400
             if enemy.intersects(centerPoint) {
-                enemy.isHit = true
+                enemy.kill()
                 livesCount -= 1
                 livesCountLabel.text = String(livesCount)
             }
         }
         //Check for any objects that were hit or off screen and remove them
-        removeObjects()
+        enemys.removeAll {$0.isHit == true}
+        bullets.removeAll {$0.isHit == true}
     }
     
     //spawn and position enemy on raidus outside frame
@@ -158,29 +161,6 @@ class GameScene: SKScene {
         enemy.originPos = CGPoint(x: enemy.position.x, y: enemy.position.y)
         addChild(enemy)
         self.enemys.append(enemy)
-    }
-    
-    func removeObjects() {
-        var bulletIndex = 0
-        for bullet in bullets {
-            if bullet.isHit == true {
-                bullets.remove(at: bulletIndex)
-                bullet.removeFromParent()
-                break
-            }
-            bulletIndex += 1
-        }
-        bulletIndex = 0
-        var enemyIndex = 0
-        for enemy in enemys {
-            if enemy.isHit == true {
-                enemys.remove(at: enemyIndex)
-                enemy.removeFromParent()
-                break
-            }
-            enemyIndex += 1
-        }
-        enemyIndex = 0
     }
     
     //Notes

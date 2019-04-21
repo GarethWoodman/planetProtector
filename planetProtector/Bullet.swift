@@ -10,18 +10,20 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Bullet: SKSpriteNode {
+class Bullet: MovingObject {
     
-    init() {
-        let texture = SKTexture(imageNamed: "bullet.png")
-        super.init(texture: texture, color: .clear, size: texture.size())
+    override init() {
+        //inhereit all properties from MovingObject
+        super.init()
+        self.texture = SKTexture(imageNamed: "bullet.png")
+        self.size = (self.texture?.size())!
     }
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var originPos = CGPoint()
-    var isHit = false
-    
+    func changeTexture() {
+        
+    }
 }
