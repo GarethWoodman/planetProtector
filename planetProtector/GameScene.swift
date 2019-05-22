@@ -35,7 +35,7 @@ class GameScene: SKScene {
         //node at the center of display
         centerPoint = self.childNode(withName: "origin") as! SKSpriteNode
         //raidus of where the player will be positioned and shoot from
-        radius = 80
+        radius = 70
         //label of score
         scoreCountLabel = self.childNode(withName: "scoreCountLabel") as! SKLabelNode
         scoreCountLabel.text = String(scoreCount)
@@ -101,8 +101,8 @@ class GameScene: SKScene {
     func fire() {
         let bullet = Bullet()
         addChild(bullet)
-        bullet.position.x = player.position.x*1.6
-        bullet.position.y = player.position.y*1.6
+        bullet.position.x = player.position.x * 1.2
+        bullet.position.y = player.position.y * 1.2
         bullet.originPos = CGPoint(x: bullet.position.x, y: bullet.position.y)
         self.bullets.append(bullet)
     }
@@ -120,8 +120,8 @@ class GameScene: SKScene {
     func checkObjects() {
         //1. Spawn bullets
         for bullet in bullets {
-            bullet.position.x += bullet.originPos.x/10
-            bullet.position.y += bullet.originPos.y/10
+            bullet.position.x += bullet.originPos.x/20
+            bullet.position.y += bullet.originPos.y/20
             //2. If bullets leave the frame, remove them
             if abs(bullet.position.x) > self.frame.size.width/2 || abs(bullet.position.y) > self.frame.size.height/2  {
                 bullet.kill()
@@ -141,6 +141,7 @@ class GameScene: SKScene {
         for enemy in enemys {
             enemy.position.x -= enemy.originPos.x/400
             enemy.position.y -= enemy.originPos.y/400
+            enemy.spin()
             if enemy.intersects(centerPoint) {
                 enemy.kill()
                 livesCount -= 1

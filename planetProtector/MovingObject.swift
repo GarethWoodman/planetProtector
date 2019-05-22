@@ -25,9 +25,4 @@ class MovingObject: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func kill() {
-        self.isHit = true
-        self.removeFromParent()
-    }
-    
 }

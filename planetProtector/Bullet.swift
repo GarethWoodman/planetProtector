@@ -26,4 +26,9 @@ class Bullet: MovingObject {
     func changeTexture() {
         
     }
+    
+    func kill() {
+        self.isHit = true
+        self.removeFromParent()
+    }
 }
